@@ -4,13 +4,21 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Introduction to Distributed Tracing</title>
+
+		<meta name="description" content="Introduction to Distributed Tracing">
+		<meta name="author" content="Nikolay Novik">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
+		<link rel="stylesheet" href="css/my.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+		<!-- Code syntax highlighting -->
+        <link class="codestyle" rel="stylesheet" href="css/tomorrow.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -24,8 +32,82 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+<!-- ####################################################################  -->
+               <section id="intro" class="aboutme">
+                    <img src='images/ava5.png' style="background:none; border:none; box-shadow:none;">
+                    <h1></h1>
+                    <h1></h1>
+
+					<h3>Introduction to Distributed Tracing</h3>
+					<p> Nikolay Novik</p>
+                    <p><a href="http://github.com/jettify">https://github.com/jettify</a></p>
+					<p>KyivPy 22</p>
+			   </section>
+<!-- ####################################################################  -->
+				<section id="aobut_me">
+                    <h3>I am ...</h3>
+                    <ul>
+                        <li><b>Software Engineer</b>: at DataRobot Ukraine</li>
+                        <li><b>Github</b>: <a href="http://github.com/jettify">https://github.com/jettify</a></li>
+                        <li><b>Twitter</b>: <a href="https://twitter.com/isinf">https://twitter.com/isinf</a></li>
+                        <li><b>aio-libs</b>: <a href="https://github.com/aio-libs">https://github.com/aio-libs</a></li>
+                        <li><b>My Projects</b>:
+                            <ul>
+                                <!-- TODO: add link to each project -->
+                                <li><i>database clients</i>: <code>aiomysql, aioobc</code></li>
+                                <li><i>web and etc</i>: <code>aiomonitor, aiohttp-debugtoolbar, aiobotocore,
+                                    aiohttp-mako, aiohttp-admin, aiorwlock, aiozipkin</code></li>
+                            </ul>
+                        </li>
+                    </ul>
+				</section>
+<!-- ####################################################################  -->
+				<section id="poll"> <h5> Poll: Have you ever read dynamo paper?</h5>
+                    <img src="images/dynamo_paper.png" height="400px">
+                    <ol>
+                        <li>I read this papers.</li>
+                        <li>I heard about this paper and know key ideas.</li>
+                        <li>I think distributed systems is kinda cool.</li>
+                    </ol>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+					<h6>Agenda</h6>
+                    <ol>
+                        <font size="6">
+                            <li>Motivation, why and when we might want to user stateful services.</li>
+                            <li>Industry examples: Uber, Halo 4, DragonAge, HPC</li>
+                            <li>Problem statement, required components</li>
+                            <li>Overview of consistent hashing, gossip dissemination and swim failure detection</li>
+                            <li>Possible improvements</li>
+                        </font>
+                    </ol>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+					<h3>References</h3>
+                    <font size="5">
+                    <ol>
+                        <li>Karger, David, et al. <i>"Consistent hashing and random trees: Distributed caching protocols for relieving hot spots on the World Wide Web."</i> Proceedings of the twenty-ninth annual ACM symposium on Theory of computing. ACM, 1997.</li>
+                        <li>Chandra, Tushar Deepak, and Sam Toueg. <i>"Unreliable failure detectors for reliable distributed systems."</i> Journal of the ACM (JACM) 43.2 (1996): 225-267.</li>
+                        <li>Das, Abhinandan, Indranil Gupta, and Ashish Motivala. <i>"Swim: Scalable weakly-consistent infection-style process group membership protocol."</i> Dependable Systems and Networks, 2002. DSN 2002. Proceedings. International Conference on. IEEE, 2002.</li>
+                        <li>Dabek, Frank, et al. <i>"Vivaldi: A decentralized network coordinate system."</i> ACM SIGCOMM Computer Communication Review 34.4 (2004): 15-26.</li>
+                        <li>Leitao, Joao, José Pereira, and Luis Rodrigues. <i>"HyParView: A membership protocol for reliable gossip-based broadcast."</i> Dependable Systems and Networks, 2007. DSN'07. 37th Annual IEEE/IFIP International Conference on. IEEE, 2007.</li>
+                        <li>Stoica, Ion, et al. <i>"Chord: A scalable peer-to-peer lookup service for internet applications."</i> ACM SIGCOMM Computer Communication Review 31.4 (2001): 149-160.</li>
+                        <li>Bailis, Peter, and Kyle Kingsbury. <i>"The network is reliable."</i> Queue 12.7 (2014): 20.</li>
+                        <li>Lamport, Leslie. <i>"Time, clocks, and the ordering of events in a distributed system."</i> Communications of the ACM 21.7 (1978): 558-565.b</li>
+                    </ol>
+                    </font>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+					<h2>Thank you!</h2>
+                    <hr>
+                    <p><img src="images/qrcode.svg" height="300px"></p>
+					<p>aio-libs: <a href="https://github.com/aio-libs">https://github.com/aio-libs</a></p>
+					<p>slides: <a href="https://jettify.github.io/kyivpy22/">https://jettify.github.io/kyivpy22</a></p>
+				</section>
+<!-- ####################################################################  -->
 			</div>
 		</div>
 
@@ -39,7 +121,6 @@
 			Reveal.initialize({
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
