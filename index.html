@@ -62,26 +62,53 @@
                     </ul>
 				</section>
 <!-- ####################################################################  -->
-				<section id="poll"> <h5> Poll: Have you ever read dynamo paper?</h5>
-                    <img src="images/dynamo_paper.png" height="400px">
+				<section id="poll">
+                    <h5>How many of you heard of distributed tracing?</h5>
                     <ol>
-                        <li>I read this papers.</li>
-                        <li>I heard about this paper and know key ideas.</li>
-                        <li>I think distributed systems is kinda cool.</li>
+                        <li>I read Dapper papers.</li>
+                        <li>I heard about this and know key ideas.</li>
+                        <li>I think distributed tracing is kinda cool.</li>
                     </ol>
 				</section>
 <!-- ####################################################################  -->
 				<section>
-					<h6>Agenda</h6>
-                    <ol>
+                    <h5>Problem statement</h5>
+                    <p><img src="images/microservices.png" height=400px></p>
+                    <ul>
                         <font size="6">
-                            <li>Motivation, why and when we might want to user stateful services.</li>
-                            <li>Industry examples: Uber, Halo 4, DragonAge, HPC</li>
-                            <li>Problem statement, required components</li>
-                            <li>Overview of consistent hashing, gossip dissemination and swim failure detection</li>
-                            <li>Possible improvements</li>
+                            <li>User response are slow where is bottle neck?</li>
+                            <li>Standard tools are broken, <i>cprofile</i> is not helping</li>
+                            <li>How many services participate in serving this http route?</li>
+                            <li>What is going on in this madness in first place?</li>
                         </font>
-                    </ol>
+                    </ul>
+                    <!-- <a href="https://www.tigerteam.dk/2014/microservices-its-not-only-the-size-that-matters-its-also-how-you-use-them-part-4/">image source</a> -->
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Tools we have: Metrics</h5>
+                    <p><img src="images/metrics.png" height=400px></p>
+                    <ul>
+                        <font size="6">
+                            <li>Aggregates events per service</li>
+                            <li>Insights about trends and alerts</li>
+                            <li>No per request overview</li>
+                        </font>
+                    </ul>
+				</section>
+
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Tools we have: Logs</h5>
+                    <p><img src="images/kibana.png" height=400px></p>
+                    <ul>
+                        <font size="6">
+                            <li>Records discrete events</li>
+                            <li>Manual correlation</li>
+                            <li>Usually expensive</li>
+                        </font>
+                    </ul>
+				</section>
 				</section>
 <!-- ####################################################################  -->
 				<section>
