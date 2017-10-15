@@ -237,22 +237,98 @@
 				</section>
 <!-- ####################################################################  -->
 				<section>
-                    <h5>Show me real code</h5>
-                    <p><img src="images/zipkin_4.png" height=450px></p>
+                    <h5>Zipkin python story</h5>
+                    <table>
+                      <tr>
+                        <th>Name</th>
+                        <th>github</th>
+                        <th>stars</th>
+                      </tr>
+                      <tr>
+                        <td>py_zipkin</td>
+                        <td><a>github.com/Yelp/py_zipkin</a></td>
+                        <td>61 &#9733;</td>
+                      </tr>
+                      <tr>
+                        <td>pyramid_zipkin</td>
+                        <td><a>github.com/Yelp/pyramid_zipkin</a></td>
+                        <td>23 &#9733;</td>
+                      </tr>
+                      <tr>
+                        <td>flask-zipkin</td>
+                        <td><a>github.com/qiajigou/flask-zipkin</a></td>
+                        <td>14 &#9733;</td>
+                      </tr>
+                      <tr>
+                        <td>django-zipkin</td>
+                        <td><a>github.com/prezi/django-zipkin</a></td>
+                        <td>19 &#9733;</td>
+                      </tr>
+                      <tr>
+                        <td>aiohttp</td>
+                        <td><a>github.com/aio-libs/aiozipkin</a></td>
+                        <td>6 &#9733;</td>
+                      </tr>
+                    </table>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Zipkin for asyncio: aiozipkin</h5>
+
+					<pre><code class="hljs python" data-trim>
+import asyncio
+import aiozipkin as az
+
+
+async def run():
+    zipkin_address = "http://localhost:9411/api/v2/spans"
+    endpoint = az.create_endpoint(
+        "simple_service", ipv4="127.0.0.1", port=8080)
+    tracer = az.create(zipkin_address, endpoint)
+
+    with tracer.new_trace(sampled=True) as span:
+        span.name("root_span")
+        span.tag("span_type", "root")
+        span.kind(az.CLIENT)
+        span.annotate("SELECT * FROM")
+        await asyncio.sleep(0.1)
+        span.annotate("start end sql")
+
+    await tracer.close()
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(run())
+					</code></pre>
+                    Simple to use context manager API.
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>aiozipkin features</h5>
+                    <ol>
+                        <li>Does not rely on thread local implicitly</li>
+                        <li>Modeled after <b>Brave</b> zipkin java client</li>
+                        <li>Uses Zipkin V2 API</li>
+                        <li>There is aiohttp server instrumentation for aiohttp</li>
+                        <li>Will be production ready very soon</li>
+                    </ol>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>aiozipkin application transparency</h5>
+                    <ul>
+                        <li>Developers are lazy, for better experience libraries should be instrumented</li>
+                        <li>Other vendors like datadog, newrelic et, will benefit too (right now they monkey patch everything)</li>
+                        <li><b>asyncio</b> right now does not support contest variables like thread locals, <b>PEP 550</b> addresses this issue</li>
+                        <li><b>aiohttp</b> HTTP client instrumentation in progress</li>
+                    </ul>
 				</section>
 <!-- ####################################################################  -->
 				<section>
 					<h3>References</h3>
                     <font size="5">
                     <ol>
-                        <li>Karger, David, et al. <i>"Consistent hashing and random trees: Distributed caching protocols for relieving hot spots on the World Wide Web."</i> Proceedings of the twenty-ninth annual ACM symposium on Theory of computing. ACM, 1997.</li>
-                        <li>Chandra, Tushar Deepak, and Sam Toueg. <i>"Unreliable failure detectors for reliable distributed systems."</i> Journal of the ACM (JACM) 43.2 (1996): 225-267.</li>
-                        <li>Das, Abhinandan, Indranil Gupta, and Ashish Motivala. <i>"Swim: Scalable weakly-consistent infection-style process group membership protocol."</i> Dependable Systems and Networks, 2002. DSN 2002. Proceedings. International Conference on. IEEE, 2002.</li>
-                        <li>Dabek, Frank, et al. <i>"Vivaldi: A decentralized network coordinate system."</i> ACM SIGCOMM Computer Communication Review 34.4 (2004): 15-26.</li>
-                        <li>Leitao, Joao, José Pereira, and Luis Rodrigues. <i>"HyParView: A membership protocol for reliable gossip-based broadcast."</i> Dependable Systems and Networks, 2007. DSN'07. 37th Annual IEEE/IFIP International Conference on. IEEE, 2007.</li>
-                        <li>Stoica, Ion, et al. <i>"Chord: A scalable peer-to-peer lookup service for internet applications."</i> ACM SIGCOMM Computer Communication Review 31.4 (2001): 149-160.</li>
-                        <li>Bailis, Peter, and Kyle Kingsbury. <i>"The network is reliable."</i> Queue 12.7 (2014): 20.</li>
-                        <li>Lamport, Leslie. <i>"Time, clocks, and the ordering of events in a distributed system."</i> Communications of the ACM 21.7 (1978): 558-565.b</li>
+                        <li>Sigelman, B. H., Barroso, L. A., Burrows, M., Stephenson, P., Plakal, M., Beaver, D., Jaspan, S., and Shanbhag, C. <i>Dapper, a Large-Scale Distributed Systems Tracing Infrastructure.</i> Technical Report, Google, 2010.</li>
+                        <li> Mace, J. <i>End-to-End Tracing: Adoption and Use Cases. Survey</i>, Brown University, 2017.</li>
                     </ol>
                     </font>
 				</section>
