@@ -70,6 +70,7 @@
                         <li>I think distributed tracing is kinda cool.</li>
                     </ol>
 				</section>
+
 <!-- ####################################################################  -->
 				<section>
                     <h5>Problem statement</h5>
@@ -109,6 +110,135 @@
                         </font>
                     </ul>
 				</section>
+
+<!-- ####################################################################  -->
+				<section>
+                    <h5>What is Distributed Tracing?</h5>
+                    <blockquote>
+                        <b>Distributed Tracing</b> - is a tool that helps gather timing
+                        data needed to troubleshoot latency problems in
+                        service oriented architectures. Provides an end-to-end
+                        view of requests as they travel through your
+                        application, and shows a map of your application’s
+                        underlying components.
+                    </blockquote>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Popularity started from Google Dapper paper (2010)
+                        and microservices hype</h5>
+                    <p><img src="images/dapper.png" height=480px></p>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Google Dapper Tracing Tool Goals</h5>
+                    <ul>
+                        <li>Low overhead</li>
+                        <li>Application transparency</li>
+                        <li>Scalability</li>
+                    </ul>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Google Dapper: Low overhead</h5>
+                    <ul>
+                        <li>Employ sampling to for low overhead</li>
+                        <li>Sample of just one out of thousands, provides
+                        sufficient information for many common use cases</li>
+                        <li>Low network overhead, context is tiny</li>
+                    </ul>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Google Dapper: Scalability</h5>
+                    <p><img src="images/dapper_pipeline.png" height=400px></p>
+                    <ul>
+                        <li>Data written in local log files</li>
+                        <li>Collectors pulls data from all production hosts</li>
+                        <li>Results are stored in regional BigTable</li>
+                    </ul>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Google Dapper: Application transparency</h5>
+                    <ul>
+                        <li>Tracing mostly transparent for developer</li>
+                        <li>Instrumented <i>RPC</i> library used by all services</li>
+                        <li>Trace context sits in thread local storage, so
+                            instrumentation can pick it when required</li>
+                    </ul>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Zipkin strait forward implementation of Dapper ideas</h5>
+                    <p><img src="images/zipkin_intro.png" height=400px></p>
+                    <font size="6">
+                        <ul>
+                            <li>Opensourced by Twitter Inc.</li>
+                            <li><a href="https://github.com/openzipkin/zipkin">https://github.com/openzipkin/zipkin</a></li>
+                            <li><a href="https://twitter.com/zipkinproject">https://twitter.com/zipkinproject</a></li>
+                        </ul>
+                    </font>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Firefighter tools</h5>
+                    <p><img src="images/trio.png" height=400px></p>
+                    Zipkin is not substitution for metrics and logging.
+                    <a>http://thelastpickle.com/blog/2015/12/07/using-zipkin-for-full-stack-tracing-including-cassandra.html</a>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Zipkin in the wild</h5>
+                    <p><img src="images/survey.png" height=600px></p>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Other tools for Distributed tracing</h5>
+                    <p><img src="images/tools.png"></p>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Zipkin Glossary</h5>
+                    <p><img src="images/zipkin_glossary.png"></p>
+                    <font size="6">
+                        <ul>
+                            <li><b>Span</b> represents one specific method (RPC) call</li>
+                            <li><b>Annotation</b> string data associated with a particular timestamp in span</li>
+                            <li><b>Binary Annotation</b> - key and value associated with given span</li>
+                            <li><b>Trace</b> - collection of spans, related to serving particular request</li>
+                        </ul>
+                    </font>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Identifying Services interacting with request</h5>
+                    <p><img src="images/zipkin_1.png" height=450px></p>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Identifying duplicate calls</h5>
+                    <p><img src="images/zipkin_3.png" height=450px></p>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Identifying Slow requests</h5>
+                    <p><img src="images/slow_service.png"></p>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Identifying serial execution</h5>
+                    <p><img src="images/zipkin_2.png" height=450px></p>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Service dependency analysis</h5>
+                    <p><img src="images/zipkin_4.png" height=450px></p>
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>Show me real code</h5>
+                    <p><img src="images/zipkin_4.png" height=450px></p>
 				</section>
 <!-- ####################################################################  -->
 				<section>
@@ -152,6 +282,7 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+            Reveal.configure({ slideNumber: true });
 		</script>
 	</body>
 </html>
