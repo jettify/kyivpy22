@@ -290,9 +290,9 @@
                         <td>19 &#9733;</td>
                       </tr>
                       <tr>
-                        <td>aiohttp</td>
+                        <td>aiozipkin</td>
                         <td><a>github.com/aio-libs/aiozipkin</a></td>
-                        <td>6 &#9733;</td>
+                        <td>10 &#9733;</td>
                       </tr>
                     </table>
 				</section>
@@ -301,28 +301,27 @@
                     <h5>Zipkin for asyncio: aiozipkin</h5>
 
 					<pre><code class="hljs python" data-trim>
-import asyncio
 import aiozipkin as az
 
-
 async def run():
-    zipkin_address = "http://localhost:9411/api/v2/spans"
-    endpoint = az.create_endpoint(
-        "simple_service", ipv4="127.0.0.1", port=8080)
+    zipkin_address = "http://127.0.0.1:9411"
+    endpoint = az.create_endpoint("simple_service", ipv4="127.0.0.1", port=8080)
     tracer = az.create(zipkin_address, endpoint)
 
+    # create and setup new trace
     with tracer.new_trace(sampled=True) as span:
-        span.name("root_span")
+        # give a name for the span
+        span.name("Slow SQL")
+        # tag with relevant information
         span.tag("span_type", "root")
+        # indicate that this is client span
         span.kind(az.CLIENT)
-        span.annotate("SELECT * FROM")
+        # make timestamp and name it with START SQL query
+        span.annotate("START SQL SELECT * FROM")
+        # imitate long SQL query
         await asyncio.sleep(0.1)
-        span.annotate("start end sql")
-
-    await tracer.close()
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(run())
+        # make other timestamp and name it "END SQL"
+        span.annotate("END SQL")
 					</code></pre>
                     Simple to use context manager API.
 				</section>
