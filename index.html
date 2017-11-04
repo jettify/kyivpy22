@@ -131,6 +131,24 @@
 				</section>
 <!-- ####################################################################  -->
 				<section>
+                    <h5>How Dapper works </h5>
+                    <p><img src="images/dapper_services.png" height=300px></p>
+                    <ul>
+                        <font size="5">
+                            <li>Small context trips across process boundaries: trace_id, parent_span_id, span_id
+					<pre><code class="hljs python" data-trim>
+                        {'X-B3-TraceId': '6f9a20b5092fa5e144fd15cc31141cd4'
+                         'X-B3-ParentSpanId': None,
+                         'X-B3-SpanId': '41baf1be2fb9bfc5',
+                         'X-B3-Sampled': '1',}
+					</code></pre> </li>
+                            <li>Each service report time information separately</li>
+                            <li>Dapper server correlates all spans into one trace</li>
+                        </font>
+                    </ul>
+				</section>
+<!-- ####################################################################  -->
+				<section>
                     <h5>Google Dapper Tracing Tool Goals</h5>
                     <ul>
                         <li>Low overhead</li>
@@ -323,19 +341,85 @@ async def run():
         # make other timestamp and name it "END SQL"
         span.annotate("END SQL")
 					</code></pre>
-                    Simple to use context manager API.
+                    It is possible to attach bunch of metadata for each span.
 				</section>
 <!-- ####################################################################  -->
+				<section>
+                    <h5>aiozipkin annotations</h5>
+
+					<pre><code class="hljs python" data-trim>
+    with tracer.new_trace(sampled=True) as span:
+        span.name("Slow SQL")
+
+        span.annotate("START SQL SELECT * FROM")
+        await asyncio.sleep(0.1)
+
+        span.annotate("END SQL")
+        await asyncio.sleep(0.1)
+					</code></pre>
+                    Span duration can be annotated manually
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>aiozipkin nested spans</h5>
+					<pre><code class="hljs python" data-trim>
+    # create and setup new trace
+    with tracer.new_trace(sampled=True) as span:
+        span.name('root_span')
+        await asyncio.sleep(0.1)
+
+        # create child span
+        with tracer.new_child(span.context) as nested_span:
+            nested_span.name('nested_span_1')
+            await asyncio.sleep(0.01)
+
+        # create other child span
+        with tracer.new_child(span.context) as nested_span:
+            nested_span.name('nested_span_2')
+            await asyncio.sleep(0.01)
+
+					</code></pre>
+                    Spans can be nested, just pass contest from parent
+				</section>
+<!-- ####################################################################  -->
+				<section>
+                    <h5>aiozipkin aiohttp</h5>
+                Client Side
+					<pre><code class="hljs python" data-trim>
+    with tracer.new_trace(sampled=True) as span:
+        span.kind(az.CLIENT)
+        headers = span.context.make_headers()
+        resp = await session.get(host, headers=headers)
+        await resp.text()
+                    </code></pre>
+
+                    Server side will work automatically if aiozipkin installed as
+                    plugin
+
+					<pre><code class="hljs python" data-trim>
+def make_app(host, port, loop):
+    app = web.Application()
+    endpoint = az.create_endpoint(
+        'aiohttp_server', ipv4=host, port=port)
+    tracer = az.create(zipkin_address, endpoint, sample_rate=1.0)
+    az.setup(app, tracer)
+                    </code></pre>
+                    Middleware attaches server span to client span.
+
+
+				</section>
+<!-- ####################################################################
 				<section>
                     <h5>aiozipkin features</h5>
                     <ol>
                         <li>Does not rely on thread local implicitly</li>
                         <li>Modeled after <b>Brave</b> zipkin java client</li>
                         <li>Uses Zipkin V2 API</li>
-                        <li>There is aiohttp server instrumentation for aiohttp</li>
-                        <li>Will be production ready very soon</li>
+                        <li>There is aiohttp server instrumentation</li>
                     </ol>
 				</section>
+####################################################################  -->
+
 <!-- ####################################################################  -->
 				<section>
                     <h5>aiozipkin application transparency</h5>
